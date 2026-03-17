@@ -1,0 +1,105 @@
+/* ── Navbar ────────────────────────────────────────── */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem 4rem;
+}
+
+/* ── Logo ──────────────────────────────────────────── */
+.navbar__logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4), 0 0 25px rgba(255, 255, 255, 0.2), 0 0 50px rgba(255, 255, 255, 0.1);
+  user-select: none;
+  position: relative;
+}
+
+
+
+/* ── Nav Links ─────────────────────────────────────── */
+.navbar__links {
+  display: flex;
+  gap: 2.4rem;
+}
+
+.navbar__link {
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: #fff;
+  transition: width 0.35s ease;
+}
+
+.navbar__link:hover {
+  color: #fff;
+}
+
+.navbar__link:hover::after {
+  width: 100%;
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 1.5rem 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1.2rem 1.5rem;
+    flex-direction: row; /* Keep as row */
+  }
+
+  .navbar__links {
+    gap: 1rem;
+  }
+
+  .navbar__link {
+    font-size: 0.75rem;
+    letter-spacing: 0.8px;
+  }
+
+  .navbar__logo {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 1rem 1rem;
+  }
+  
+  .navbar__links {
+    gap: 0.6rem;
+  }
+
+  .navbar__link {
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+  }
+}

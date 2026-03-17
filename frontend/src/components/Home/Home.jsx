@@ -1,0 +1,75 @@
+import { useState, useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Navbar from '../Navbar/Navbar'
+import './Home.css'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const WORDS = ['FURTHER', 'BEYOND', 'OUT OF LIMITS', 'TO THE EDGE', 'NEXT LEVEL']
+
+const Home = () => {
+  const [wordIndex, setWordIndex] = useState(0)
+  const [glitching, setGlitching] = useState(false)
+  const homeRef = useRef(null)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGlitching(true)
+
+      setTimeout(() => {
+        setWordIndex((prev) => (prev + 1) % WORDS.length)
+      }, 200)
+
+      setTimeout(() => {
+        setGlitching(false)
+      }, 500)
+    }, 2500)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  return (
+    <section className="home-hero" id="home" ref={homeRef}>
+      <Navbar />
+
+      <div className="home-hero__video-bg">
+        <iframe
+          src="https://www.youtube.com/embed/Vn-ms0Ny0WU?autoplay=1&mute=1&loop=1&playlist=Vn-ms0Ny0WU&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
+          title="Background Video"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+        />
+      </div>
+
+      <div className="home-hero__overlay" />
+
+      <div className="home-hero__content">
+        <p className="home-hero__greeting">Welcome to my site</p>
+        <h1 className="home-hero__title">
+          <span className="home-hero__take">TAKE </span>
+          <span className="home-hero__creativity">CREATIVITY</span>
+        </h1>
+        <h1
+          className={`home-hero__cycling-word ${glitching ? 'error-glitch' : ''}`}
+          data-text={WORDS[wordIndex]}
+        >
+          {WORDS[wordIndex]}
+        </h1>
+
+        <p className="home-hero__subtitle">
+          Crafting immersive digital experiences with clean code and bold design.
+        </p>
+      </div>
+
+      <div className="home-hero__scroll">
+        <span className="home-hero__scroll-text">Scroll</span>
+        <div className="home-hero__scroll-line" />
+      </div>
+    </section>
+  )
+}
+
+export default Home
