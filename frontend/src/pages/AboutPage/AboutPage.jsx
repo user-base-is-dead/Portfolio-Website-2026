@@ -62,11 +62,20 @@ const AboutPage = () => {
         role: 'Python Developer',
         timeframe: 'Self Experience',
         tags: ['Python', 'discord.py', 'APIs', 'Automation'],
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. I build Discord bots with commands, moderation, utilities, and custom integrations. (You can replace this text later.)',
-        screenshots: [
-          { src: '', alt: 'Discord bot screenshot (add later)', caption: 'Add screenshot' },
-          { src: '', alt: 'Discord bot screenshot 2 (add later)', caption: 'Add screenshot' },
+        description: '',
+        projects: [
+          {
+            key: 'bot-1',
+            name: 'Discord Bot #1',
+            description: 'Paste the Bot #1 description here (from your old site).',
+            screenshots: [{ src: '', alt: 'Discord Bot #1 screenshot (add later)', caption: 'Add screenshot' }],
+          },
+          {
+            key: 'bot-2',
+            name: 'Discord Bot #2',
+            description: 'Paste the Bot #2 description here (from your old site).',
+            screenshots: [{ src: '', alt: 'Discord Bot #2 screenshot (add later)', caption: 'Add screenshot' }],
+          },
         ],
         notes: [
           'Lorem ipsum: bot features / modules',
@@ -246,7 +255,16 @@ const AboutPage = () => {
     wrapLines(splitTextSchool)
 
     const ctx = gsap.context(() => {
-      // Timeline for about-me text elements
+      // Simple load animation for the Hero section Title (No scroll scrub)
+      gsap.from('.aboutpage-hero__title', {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'power3.out'
+      })
+
+      // Timeline for about-me content text elements
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: '.aboutpage-content',
@@ -256,13 +274,7 @@ const AboutPage = () => {
         }
       })
 
-      tl.from('.aboutpage-hero__title', {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out'
-      }, 0)
-      .from('.aboutpage-heading', {
+      tl.from('.aboutpage-heading', {
         y: 40,
         opacity: 0,
         duration: 0.8,

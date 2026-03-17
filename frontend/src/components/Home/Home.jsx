@@ -22,15 +22,10 @@ const Home = () => {
         { 
           y: 0, 
           opacity: 1, 
+          delay: 0.2,
           duration: 0.8, 
           stagger: 0.1, 
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.home-hero',
-            start: 'top 85%',
-            end: 'bottom 85%',
-            scrub: 1 // Enables reversing when scrolling back
-          }
+          ease: 'power3.out'
         }
       )
     }, homeRef)
