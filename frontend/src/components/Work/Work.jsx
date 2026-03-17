@@ -237,16 +237,17 @@ const Work = () => {
 
       gsap.fromTo(
         '.work-header-container',
-        { y: 16, opacity: 0 },
+        { y: 40, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 0.8,
-          ease: 'power3.out',
+          duration: 0.3,
+          ease: 'power4.out', // Much snappier finish
           scrollTrigger: {
             trigger: containerRef.current,
-            start: 'top 75%',
-            once: true,
+            start: 'top 85%',
+            end: 'top 75%', // Finishes faster
+            scrub: 1,
           },
         }
       );

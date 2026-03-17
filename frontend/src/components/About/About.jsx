@@ -52,11 +52,11 @@ const About = () => {
         ease: 'power3.out'
       }, '-=0.4')
       .from('.about-btn-wrapper', {
-        y: 20,
+        y: 40,
         opacity: 0,
-        duration: 0.6,
-        ease: 'power2.out'
-      }, '-=0.2')
+        duration: 0.8,
+        ease: 'power3.out'
+      }, '-=0.4')
 
       // Separate animation for image (swipe up reveal effect)
       gsap.fromTo('.about-image', 

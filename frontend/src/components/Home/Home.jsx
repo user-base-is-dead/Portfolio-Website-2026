@@ -14,6 +14,27 @@ const Home = () => {
   const homeRef = useRef(null)
 
   useEffect(() => {
+    // Initial home load animation & scrub for scrolling back
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ['.home-hero__greeting', '.home-hero__title', '.home-hero__cycling-word', '.home-hero__subtitle', '.home-hero__scroll'],
+        { y: 40, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          stagger: 0.1, 
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.home-hero',
+            start: 'top 85%',
+            end: 'bottom 85%',
+            scrub: 1 // Enables reversing when scrolling back
+          }
+        }
+      )
+    }, homeRef)
+
     const interval = setInterval(() => {
       setGlitching(true)
 
@@ -28,6 +49,7 @@ const Home = () => {
 
     return () => {
       clearInterval(interval)
+      ctx.revert()
     }
   }, [])
 

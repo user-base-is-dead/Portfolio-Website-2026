@@ -1,16 +1,229 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import SplitType from 'split-type'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import profileImg from '../../assets/profile.jpg'
 import './AboutPage.css'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 const AboutPage = () => {
   const pageRef = useRef(null)
+  const modalRef = useRef(null)
+  const modalPanelRef = useRef(null)
+  const modalCloseBtnRef = useRef(null)
+  const schoolStoryScrollRef = useRef(null)
+  const [activeExperienceKey, setActiveExperienceKey] = useState(null)
+  const [isModalClosing, setIsModalClosing] = useState(false)
+
+  const experiences = useMemo(
+    () => [
+      {
+        key: 'etn-wp',
+        title: 'ETN Solutions Pvt Ltd - WordPress Developer',
+        role: 'WordPress Frontend Developer',
+        timeframe: '2025 - 2026',
+        tags: ['WordPress', 'HTML5', 'CSS3', 'JavaScript', 'Elementor', 'PHP'],
+        description:
+          'Detail-oriented WordPress Frontend Developer with hands-on experience in designing and developing responsive websites. Skilled in creating user-friendly interfaces and optimizing website performance to enhance user experience.',
+
+        notes: [
+          'Developed and customized responsive WordPress websites.',
+          'Designed and modified themes using HTML, CSS, and JavaScript.',
+          'Integrated plugins and optimized website speed and performance.',
+          'Ensured cross-browser compatibility and mobile responsiveness.',
+          'Collaborated with backend team for API integration.',
+          'Implemented UI/UX improvements based on client requirements.'
+        ],
+      },
+      {
+        key: 'etn-sql',
+        title: 'ETN Solutions Pvt Ltd - Database Management',
+        role: 'Entry-Level SQL Professional',
+        timeframe: '2025 - 2026',
+        tags: ['SQL', 'Database Management', 'Data Handling'],
+        description:
+          'Entry-level SQL professional with hands-on exposure to database maintenance and query execution. Collaborated with senior developers to support website development and database management activities, handling assigned tasks and learning best practices in a professional environment.',
+
+        notes: [
+          'Executed basic SQL queries (SELECT, INSERT, UPDATE, DELETE) for data handling.',
+          'Assisted in maintaining database records and updating information as required.',
+          'Monitored database entries to ensure consistency and accuracy.',
+          'Learned database structure and management practices under supervision.',
+          'Collaborated with backend team to support database tasks.'
+        ],
+      },
+      {
+        key: 'discord-bots',
+        title: 'Discord Bot Development',
+        role: 'Python Developer',
+        timeframe: 'Self Experience',
+        tags: ['Python', 'discord.py', 'APIs', 'Automation'],
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. I build Discord bots with commands, moderation, utilities, and custom integrations. (You can replace this text later.)',
+        screenshots: [
+          { src: '', alt: 'Discord bot screenshot (add later)', caption: 'Add screenshot' },
+          { src: '', alt: 'Discord bot screenshot 2 (add later)', caption: 'Add screenshot' },
+        ],
+        notes: [
+          'Lorem ipsum: bot features / modules',
+          'Lorem ipsum: hosting / deployment approach',
+          'Lorem ipsum: add bot info here later',
+        ],
+      },
+      {
+        key: 'anticheat',
+        title: 'Anticheat Bypass And Cheats',
+        role: 'Reverse Engineering / Security Research',
+        timeframe: 'Experience',
+        tags: ['Reverse engineering', 'Bypass', 'Telemetry', 'Evasion'],
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. I worked on multiple customer scenarios with different constraints and environments. (You can replace this text later.)',
+        customers: [
+          {
+            key: 'cust-1',
+            name: 'Customer #1',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Add details later.',
+            screenshots: [{ src: '', alt: 'Customer #1 screenshot (add later)', caption: 'Add screenshot' }],
+          },
+          {
+            key: 'cust-2',
+            name: 'Customer #2',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Add details later.',
+            screenshots: [{ src: '', alt: 'Customer #2 screenshot (add later)', caption: 'Add screenshot' }],
+          },
+          {
+            key: 'cust-3',
+            name: 'Customer #3',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Add details later.',
+            screenshots: [{ src: '', alt: 'Customer #3 screenshot (add later)', caption: 'Add screenshot' }],
+          },
+        ],
+      },
+    ],
+    []
+  )
+
+  const activeExperience = useMemo(() => {
+    if (!activeExperienceKey) return null
+    return experiences.find((e) => e.key === activeExperienceKey) ?? null
+  }, [activeExperienceKey, experiences])
+
+  const reducedMotion = useMemo(() => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+  }, [])
+
+  const openExperience = useCallback((key) => {
+    setActiveExperienceKey(key)
+  }, [])
+
+  const closeExperience = useCallback(() => {
+    if (!activeExperienceKey || isModalClosing) return
+    if (reducedMotion) {
+      setActiveExperienceKey(null)
+      return
+    }
+
+    const overlay = modalRef.current
+    const panel = modalPanelRef.current
+    if (!overlay || !panel) {
+      setActiveExperienceKey(null)
+      return
+    }
+
+    setIsModalClosing(true)
+    gsap
+      .timeline({
+        onComplete: () => {
+          setActiveExperienceKey(null)
+          setIsModalClosing(false)
+        },
+      })
+      .to(panel, {
+        y: 12,
+        opacity: 0,
+        duration: 0.22,
+        ease: 'power2.in',
+      })
+      .to(
+        overlay,
+        {
+          opacity: 0,
+          duration: 0.18,
+          ease: 'power2.in',
+        },
+        '-=0.16'
+      )
+  }, [activeExperienceKey, isModalClosing, reducedMotion])
+
+  useEffect(() => {
+    if (!activeExperienceKey) return
+
+    // Lock background scroll while reading
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') closeExperience()
+    }
+    window.addEventListener('keydown', onKeyDown)
+
+    const overlay = modalRef.current
+    const panel = modalPanelRef.current
+    if (overlay && panel) {
+      gsap.set(overlay, { opacity: 0 })
+      gsap.set(panel, {
+        opacity: 0,
+        y: 18,
+        clipPath: 'polygon(0 4%, 100% 0, 100% 96%, 0 100%)',
+      })
+
+      if (!reducedMotion) {
+        gsap
+          .timeline()
+          .to(overlay, { opacity: 1, duration: 0.22, ease: 'power2.out' })
+          .to(
+            panel,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power3.out',
+            },
+            '-=0.08'
+          )
+          .fromTo(
+            panel.querySelectorAll('.skillsxp-modal__stagger'),
+            { y: 10, opacity: 0, filter: 'blur(6px)' },
+            {
+              y: 0,
+              opacity: 1,
+              filter: 'blur(0px)',
+              duration: 0.55,
+              ease: 'power3.out',
+              stagger: 0.05,
+              delay: 0.04,
+            },
+            '-=0.18'
+          )
+      } else {
+        gsap.set(overlay, { opacity: 1 })
+        gsap.set(panel, { opacity: 1, y: 0, clipPath: 'none' })
+      }
+    }
+
+    // Move focus to close button for keyboard users
+    setTimeout(() => modalCloseBtnRef.current?.focus?.(), 0)
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [activeExperienceKey, closeExperience, reducedMotion])
 
   useEffect(() => {
     // Split the text into lines for BOTH sections
@@ -43,12 +256,18 @@ const AboutPage = () => {
         }
       })
 
-      tl.from('.aboutpage-heading', {
+      tl.from('.aboutpage-hero__title', {
         y: 40,
         opacity: 0,
         duration: 0.8,
         ease: 'power3.out'
-      })
+      }, 0)
+      .from('.aboutpage-heading', {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      }, 0)
       .from(splitTextAbout.lines, {
         y: 60,
         opacity: 0,
@@ -126,6 +345,82 @@ const AboutPage = () => {
         }
       )
 
+      // Skills & Experience reveal
+      const rm =
+        window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false
+      if (!rm) {
+        const skillsHeaderTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.skillsxp-section',
+            start: 'top 80%',
+            end: 'bottom 85%',
+            scrub: 1,
+            toggleActions: 'play reverse play reverse'
+          },
+        })
+
+        skillsHeaderTl
+          .fromTo(
+            '.skillsxp-heading',
+            { y: 34, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' }
+          )
+          .fromTo(
+            '.skillsxp-subtitle',
+            { y: 18, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out' },
+            '-=0.75' // Reduced delay so it animates almost together with heading
+          )
+
+        ScrollTrigger.batch('.skillsxp-card', {
+          start: 'top 85%',
+          onEnter: (batch) =>
+            gsap.fromTo(
+              batch,
+              { y: 34, opacity: 0, scale: 0.985 },
+              {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.9,
+                ease: 'power3.out',
+                stagger: 0.12,
+                overwrite: true,
+              }
+            ),
+          onEnterBack: (batch) =>
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.55,
+              ease: 'power3.out',
+              stagger: 0.06,
+              overwrite: true,
+            }),
+          onLeave: (batch) =>
+            gsap.to(batch, {
+              opacity: 0,
+              y: 18,
+              scale: 0.99,
+              duration: 0.35,
+              ease: 'power2.out',
+              stagger: 0.04,
+              overwrite: true,
+            }),
+          onLeaveBack: (batch) =>
+            gsap.to(batch, {
+              opacity: 0,
+              y: 18,
+              scale: 0.99,
+              duration: 0.35,
+              ease: 'power2.out',
+              stagger: 0.04,
+              overwrite: true,
+            }),
+        })
+      }
+
     }, pageRef)
 
     return () => {
@@ -134,6 +429,41 @@ const AboutPage = () => {
       splitTextSchool.revert()
     }
   }, [])
+
+  useEffect(() => {
+    const el = schoolStoryScrollRef.current
+    if (!el) return
+    if (reducedMotion) return
+
+    // Use GSAP (ScrollToPlugin) for smooth inner-box scrolling on wheel/trackpad.
+    // Keep touch scrolling native (mobile momentum).
+    let targetTop = el.scrollTop
+
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+    const onWheel = (e) => {
+      if (el.scrollHeight <= el.clientHeight) return
+      if (e.ctrlKey) return
+
+      e.preventDefault()
+
+      const maxTop = el.scrollHeight - el.clientHeight
+      targetTop = clamp(targetTop + e.deltaY, 0, Math.max(0, maxTop))
+
+      gsap.to(el, {
+        scrollTo: { y: targetTop, autoKill: false },
+        duration: 0.55,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      })
+    }
+
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => {
+      el.removeEventListener('wheel', onWheel)
+      gsap.killTweensOf(el)
+    }
+  }, [reducedMotion])
 
   return (
     <div className="aboutpage" ref={pageRef}>
@@ -215,7 +545,7 @@ const AboutPage = () => {
           {/* ── Right Side: Heading + Scrollable Text ── */}
           <div className="schoolstory-right">
             <h2 className="schoolstory-heading">BLACK DAYS OF SCHOOL YEARS</h2>
-            <div className="schoolstory-content">
+            <div className="schoolstory-content" data-lenis-prevent ref={schoolStoryScrollRef}>
 
             <p className="aboutpage-text">
               When I was in school, I had a few hobbies — one of them was art, and the other was learning new things about technology — back then, I was very good at drawing and painting, and from my childhood until the end of my school years, I created many artworks and paintings, dreaming that one day I would become an artist — along with that, I always had a deep interest in technology — even during those days, I started learning web languages like HTML, and I actually mastered HTML when I was in class 5, purely by watching tutorials on YouTube — I used to write code on a site called Blogger.com, where I created simple blog-style web pages using HTML — at that time, I was just a kid, but I found the structure and format of coding very unique and well-organized, which made my interest in coding grow even more — the main reason behind this was that I wasn't very strong in regular school studies and didn't enjoy writing notes in notebooks, but when I wrote code, it looked clean, logical, and creative, and that made me love it — my handwriting was always beautiful, but coding gave me a new way to express myself neatly and meaningfully — I still remember writing blogs back then, and sometimes I wish I had saved them, because reading them now would bring a nostalgic feeling, though sadly, they're lost with time.
@@ -284,6 +614,185 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
+
+      {/* ── Skills & Experience ── */}
+      <section className="aboutpage-body skillsxp-section" aria-labelledby="skillsxp-heading">
+        <div className="aboutpage-smoke-layer">
+          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--1" />
+          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--2" />
+          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--3" />
+          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--4" />
+        </div>
+
+        <div className="skillsxp-container">
+          <header className="skillsxp-header">
+            <h2 className="skillsxp-heading" id="skillsxp-heading">
+              SKILLS &amp; EXPERIENCE
+            </h2>
+            <p className="skillsxp-subtitle">
+              A snapshot of what I’ve built, shipped, and explored.
+            </p>
+          </header>
+
+          <div className="skillsxp-grid">
+            {experiences.map((exp) => (
+              <button
+                type="button"
+                className="skillsxp-card skillsxp-card--clickable"
+                key={exp.key}
+                onClick={() => openExperience(exp.key)}
+              >
+                <div className="skillsxp-card__top">
+                  <div className="skillsxp-card__titles">
+                    <h3 className="skillsxp-card__title">{exp.title}</h3>
+                    <p className="skillsxp-card__role">
+                      <span className="skillsxp-card__roleLabel">{exp.role}</span>
+                      <span className="skillsxp-card__dot" aria-hidden="true">
+                        •
+                      </span>
+                      <span className="skillsxp-card__time">{exp.timeframe}</span>
+                    </p>
+                  </div>
+                  <span className="skillsxp-card__cta" aria-hidden="true">
+                    Read →
+                  </span>
+                </div>
+
+                {'tags' in exp ? (
+                  <ul className="skillsxp-tags" aria-label="Skills">
+                    {exp.tags.map((t) => (
+                      <li key={t} className="skillsxp-tag">
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                {'description' in exp ? (
+                  <p className="skillsxp-desc">{exp.description}</p>
+                ) : null}
+
+                <p className="skillsxp-card__hint">Click to open and read details.</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Experience Detail (Click to Read) ── */}
+      {activeExperience ? (
+        <div
+          className="skillsxp-modal"
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeExperience.title} details`}
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) closeExperience()
+          }}
+        >
+          <div className="skillsxp-modal__panel" ref={modalPanelRef} data-lenis-prevent>
+            <div className="skillsxp-modal__top skillsxp-modal__stagger">
+              <div className="skillsxp-modal__titles">
+                <p className="skillsxp-modal__kicker">SKILLS &amp; EXPERIENCE</p>
+                <h3 className="skillsxp-modal__title">{activeExperience.title}</h3>
+                <p className="skillsxp-modal__role">
+                  <span>{activeExperience.role}</span>
+                  <span className="skillsxp-modal__dot" aria-hidden="true">
+                    •
+                  </span>
+                  <span>{activeExperience.timeframe}</span>
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="skillsxp-modal__close"
+                onClick={closeExperience}
+                ref={modalCloseBtnRef}
+              >
+                Close
+              </button>
+            </div>
+
+            {'tags' in activeExperience ? (
+              <ul className="skillsxp-tags skillsxp-modal__stagger" aria-label="Skills">
+                {activeExperience.tags.map((t) => (
+                  <li key={t} className="skillsxp-tag">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            {'description' in activeExperience ? (
+              <p className="skillsxp-desc skillsxp-modal__stagger">{activeExperience.description}</p>
+            ) : null}
+
+            {'notes' in activeExperience ? (
+              <div className="skillsxp-modal__block skillsxp-modal__stagger">
+                <h4 className="skillsxp-modal__h">Highlights</h4>
+                <ul className="skillsxp-notes" aria-label="Highlights">
+                  {activeExperience.notes.map((n, idx) => (
+                    <li key={idx}>{n}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            {'screenshots' in activeExperience ? (
+              <div className="skillsxp-modal__block skillsxp-modal__stagger">
+                <h4 className="skillsxp-modal__h">Screenshots</h4>
+                <div className="skillsxp-shots" aria-label="Screenshots">
+                  {activeExperience.screenshots.map((s, idx) => (
+                    <figure className="skillsxp-shot" key={idx}>
+                      {s.src ? (
+                        <img src={s.src} alt={s.alt} />
+                      ) : (
+                        <div className="skillsxp-shot__placeholder" aria-hidden="true">
+                          <span>{s.caption || 'Add screenshot'}</span>
+                        </div>
+                      )}
+                      <figcaption className="skillsxp-shot__caption">{s.caption}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            {'customers' in activeExperience ? (
+              <div className="skillsxp-modal__block skillsxp-modal__stagger">
+                <h4 className="skillsxp-modal__h">Customer cases</h4>
+                <div className="skillsxp-customers skillsxp-customers--detail" aria-label="Customer examples">
+                  {activeExperience.customers.map((c) => (
+                    <section className="skillsxp-customer skillsxp-customer--detail" key={c.key}>
+                      <div className="skillsxp-customer__head">
+                        <h4 className="skillsxp-customer__name">{c.name}</h4>
+                        <p className="skillsxp-customer__desc">{c.description}</p>
+                      </div>
+
+                      <div className="skillsxp-shots skillsxp-shots--compact" aria-label={`${c.name} screenshots`}>
+                        {c.screenshots.map((s, idx) => (
+                          <figure className="skillsxp-shot" key={idx}>
+                            {s.src ? (
+                              <img src={s.src} alt={s.alt} />
+                            ) : (
+                              <div className="skillsxp-shot__placeholder" aria-hidden="true">
+                                <span>{s.caption || 'Add screenshot'}</span>
+                              </div>
+                            )}
+                            <figcaption className="skillsxp-shot__caption">{s.caption}</figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
 
       <Footer />
     </div>

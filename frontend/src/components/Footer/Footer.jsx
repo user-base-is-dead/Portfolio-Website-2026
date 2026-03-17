@@ -1,5 +1,9 @@
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Footer.css'
 
+gsap.registerPlugin(ScrollTrigger)
 const EmailIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -88,8 +92,37 @@ function Footer() {
     ...marqueeItems,
   ]
 
+  const footerRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Heading slide up animation matching other pages
+      gsap.fromTo(
+        ['.footer-brand', '.footer-tagline'],
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.2, // Slight delay between MISHRA and the subtitle
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.footer-content',
+            start: 'top 85%',
+            end: 'bottom 85%',
+            scrub: 1,
+          },
+        }
+      )
+    }, footerRef)
+
+    return () => {
+      ctx.revert()
+    }
+  }, [])
+
   return (
-    <footer className="footer" id="footer">
+    <footer className="footer" id="footer" ref={footerRef}>
       <div className="footer-marquee">
         <div className="footer-marquee__track">
           {marqueeContent.map((item, index) => (
