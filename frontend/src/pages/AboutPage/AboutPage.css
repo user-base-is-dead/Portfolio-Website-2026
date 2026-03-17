@@ -81,10 +81,10 @@
 }
 
 .aboutpage-hero__subtitle {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.9);
   max-width: 520px;
   margin: 0 auto;
 }
@@ -262,10 +262,10 @@
 }
 
 .aboutpage-text {
-  font-size: 1.05rem;
-  font-weight: 300;
+  font-size: 1.1rem;
+  font-weight: 400;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.5px;
 }
 
@@ -358,14 +358,22 @@
   transform: translateY(-5px);
 }
 
+/* Right column wrapper: heading sits above, text scrolls below */
+.schoolstory-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .schoolstory-content {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   /* Add scrolling for long text to save space */
-  max-height: 80vh;
+  max-height: 70vh;
   overflow-y: auto;
   padding-right: 1.5rem;
+  padding-bottom: 80px; /* Space so text scrolls past the bottom fade gradient */
   /* Smooth scrolling */
   scroll-behavior: smooth;
   /* Stylized scrollbar */
@@ -397,19 +405,11 @@
   line-height: 1.1;
   letter-spacing: -1px;
   color: #fff;
-  margin-bottom: 0.5rem; /* Reduced margin since the gap handles spacing */
+  margin-bottom: 1.5rem;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 
                0 0 30px rgba(255, 255, 255, 0.25), 
                0 0 60px rgba(255, 255, 255, 0.15), 
                0 0 100px rgba(255, 255, 255, 0.08);
-  /* Keep heading sticky at the top while text scrolls */
-  position: sticky;
-  top: 0;
-  background: #050505;
-  padding-bottom: 1rem;
-  z-index: 2;
-  /* Fade out bottom of heading for neat transition */
-  box-shadow: 0 20px 20px -20px #050505;
 }
 
 /* ── Responsive ─────────────────────────────────────── */

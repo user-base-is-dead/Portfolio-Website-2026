@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Lenis from 'lenis'
 import Home from '../../components/Home/Home'
 import About from '../../components/About/About'
 import Work from '../../components/Work/Work'
@@ -13,16 +12,6 @@ const LandingPage = () => {
   const containerRef = useRef(null)
 
   useEffect(() => {
-    const lenis = new Lenis()
-
-    lenis.on('scroll', ScrollTrigger.update)
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000)
-    })
-
-    gsap.ticker.lagSmoothing(0)
-
     const ctx = gsap.context(() => {
       // Get all sections with the 'panel' class
       const panels = gsap.utils.toArray('.panel')
@@ -43,7 +32,6 @@ const LandingPage = () => {
     }, containerRef)
 
     return () => {
-      lenis.destroy()
       ctx.revert()
     }
   }, [])

@@ -20,9 +20,11 @@
 .footer-marquee {
   width: 100%;
   overflow: hidden;
-  padding: 24px 0;
+  padding: 2.5rem 0;
   position: relative;
   z-index: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Match About page lines */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-marquee__track {
@@ -41,20 +43,25 @@
 
 .footer-marquee__text {
   font-family: 'Gloock', serif;
-  font-size: clamp(4rem, 10vw, 8rem);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 400;
-  letter-spacing: 0.05em;
+  letter-spacing: 4px; /* Matches 4px from skills section */
   text-transform: uppercase;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.12); /* Solid lower opacity text */
   line-height: 1;
   user-select: none;
+  padding: 0 1rem;
+  transition: color 0.3s ease;
+}
+
+.footer-marquee__text:hover {
+  color: rgba(255, 255, 255, 0.35); /* Glow on hover */
 }
 
 .footer-marquee__separator {
-  margin: 0 40px;
-  font-size: 2.5rem;
-  color: rgba(255, 255, 255, 0.08);
+  margin: 0 1.5rem;
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.2);
   line-height: 1;
   user-select: none;
 }
@@ -100,11 +107,11 @@
 }
 
 .footer-tagline {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 300;
+  font-family: var(--font-rajdhani);
+  font-size: 1.35rem;
+  font-weight: 400;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.8);
   max-width: 500px;
   margin-bottom: 0;
 }
@@ -130,10 +137,10 @@
   border-radius: 999px;
   background: none;
   border: none;
-  color: rgba(255, 244, 236, 0.68);
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-rajdhani);
+  font-size: 0.95rem;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -230,10 +237,10 @@
 }
 
 .footer-bottom span {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.22);
+  font-family: var(--font-rajdhani);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }

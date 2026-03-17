@@ -34,19 +34,19 @@ const marqueeItems = [
   'GAMES',
 ]
 
-function SocialLinkLayers({ icon: Icon, label }) {
+function SocialLinkLayers({ icon: IconComponent, label }) {
   return (
     <>
       <span className="footer-social-link__text-container" aria-hidden="true">
         <span className="footer-social-link__content footer-social-link__content--default">
-          <Icon />
+          {IconComponent()}
           <span>{label}</span>
         </span>
       </span>
 
       <span className="footer-social-link__overlay" aria-hidden="true">
         <span className="footer-social-link__content footer-social-link__content--hover">
-          <Icon />
+          {IconComponent()}
           <span>{label}</span>
         </span>
         <span className="footer-social-link__overlay-bg" />
@@ -95,7 +95,7 @@ function Footer() {
           {marqueeContent.map((item, index) => (
             <span className="footer-marquee__item" key={index}>
               <span className="footer-marquee__text">{item}</span>
-              <span className="footer-marquee__separator">&middot;</span>
+              <span className="footer-marquee__separator">✦</span>
             </span>
           ))}
         </div>
@@ -131,7 +131,7 @@ function Footer() {
           {marqueeContent.map((item, index) => (
             <span className="footer-marquee__item" key={index}>
               <span className="footer-marquee__text">{item}</span>
-              <span className="footer-marquee__separator">&middot;</span>
+              <span className="footer-marquee__separator">✦</span>
             </span>
           ))}
         </div>

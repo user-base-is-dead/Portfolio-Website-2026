@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import image1 from '../../assets/image1.png';
@@ -68,93 +68,107 @@ const workItems = [
 const WorkItem = ({ item, index }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const itemRef = useRef(null);
-  const contentRef = useRef(null);
+  const mediaRef = useRef(null);
+  const imgRef = useRef(null);
+  const filterSvgRef = useRef(null);
+  const displacementTriggerRef = useRef(null);
+
+  const reducedMotion = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+  }, []);
 
   useEffect(() => {
     const el = itemRef.current;
+    if (!el) return;
 
-    const filterId = `#displacement-${item.id}`;
-    const feDisplacementMap = document.querySelector(`${filterId} feDisplacementMap`);
-    const feTurbulence = document.querySelector(`${filterId} feTurbulence`);
+    const feDisplacementMap = filterSvgRef.current?.querySelector('feDisplacementMap') ?? null;
+    const feTurbulence = filterSvgRef.current?.querySelector('feTurbulence') ?? null;
 
     const ctx = gsap.context(() => {
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-          end: 'bottom 20%',
-          toggleActions: 'play reverse play reverse',
-        },
-      });
-
-      gsap.fromTo(
-        contentRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 75%',
-            toggleActions: 'play reverse play reverse',
-          },
+      if (!reducedMotion) {
+        // Subtle parallax on the thumbnail image while scrolling
+        if (imgRef.current && !isPlaying) {
+          gsap.to(imgRef.current, {
+            yPercent: -6,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.6,
+            },
+          });
         }
-      );
 
-      if (feDisplacementMap && feTurbulence && !isPlaying) {
-        ScrollTrigger.create({
-          trigger: el,
-          start: 'top bottom',
-          end: 'bottom top',
-          onUpdate: (self) => {
-            const velocity = Math.abs(self.getVelocity());
-            const mappedScale = gsap.utils.clamp(0, 150, velocity / 15);
+        // Velocity-driven displacement (disabled while playing and for reduced-motion users)
+        if (feDisplacementMap && feTurbulence && !isPlaying) {
+          displacementTriggerRef.current = ScrollTrigger.create({
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            onUpdate: (self) => {
+              const velocity = Math.abs(self.getVelocity());
+              const mappedScale = gsap.utils.clamp(0, 120, velocity / 18);
 
-            gsap.to(feDisplacementMap, {
-              attr: { scale: mappedScale },
-              duration: 0.1,
-              ease: 'power2.out',
-              overwrite: true,
-              onComplete: () => {
-                gsap.to(feDisplacementMap, {
-                  attr: { scale: 0 },
-                  duration: 0.8,
-                  ease: 'power3.out',
-                  overwrite: 'auto',
-                });
-              },
-            });
-          },
-        });
+              gsap.to(feDisplacementMap, {
+                attr: { scale: mappedScale },
+                duration: 0.12,
+                ease: 'power2.out',
+                overwrite: true,
+                onComplete: () => {
+                  gsap.to(feDisplacementMap, {
+                    attr: { scale: 0 },
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    overwrite: 'auto',
+                  });
+                },
+              });
+            },
+          });
+        }
       }
     });
 
-    return () => ctx.revert();
-  }, [isPlaying, item.id]);
+    return () => {
+      displacementTriggerRef.current?.kill();
+      displacementTriggerRef.current = null;
+      ctx.revert();
+    };
+  }, [isPlaying, item.id, reducedMotion]);
 
   const indexDisplay = index < 9 ? `0${index + 1}` : index + 1;
+  const isVideo = item.type === 'video';
+  const filterId = `displacement-${item.id}`;
 
   return (
-    <div className="work-item-wrapper" ref={itemRef}>
-      <svg className="work-svg-filter">
-        <filter id={`displacement-${item.id}`} x="-20%" y="-20%" width="140%" height="140%">
+    <article
+      className={`work-item ${index % 2 === 1 ? 'is-reversed' : ''}`}
+      ref={itemRef}
+      aria-label={`${item.title}`}
+    >
+      <svg className="work-svg-filter" aria-hidden="true">
+        <filter
+          ref={filterSvgRef}
+          id={filterId}
+          x="-20%"
+          y="-20%"
+          width="140%"
+          height="140%"
+          filterUnits="objectBoundingBox"
+        >
           <feTurbulence type="fractalNoise" baseFrequency="0.015 0.02" numOctaves="2" result="noise" />
           <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="B" />
         </filter>
       </svg>
 
       <div
-        className="work-video-container"
-        style={{ filter: isPlaying ? 'none' : `url(#displacement-${item.id})` }}
+        className="work-media"
+        ref={mediaRef}
+        style={{ filter: isPlaying || reducedMotion ? 'none' : `url(#${filterId})` }}
       >
-        {item.type === 'video' ? (
+        {isVideo ? (
           isPlaying ? (
             <iframe
               className="work-iframe"
@@ -164,35 +178,51 @@ const WorkItem = ({ item, index }) => {
               allowFullScreen
             />
           ) : (
-            <div className="work-thumbnail" onClick={() => setIsPlaying(true)}>
+            <button className="work-thumbnail" type="button" onClick={() => setIsPlaying(true)}>
               <img
                 src={`https://img.youtube.com/vi/${item.youtubeId}/maxresdefault.jpg`}
                 alt={item.title}
                 className="work-img"
+                ref={imgRef}
                 onError={(e) => {
                   e.target.src = `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`;
                 }}
               />
-              <div className="work-play-btn">▶</div>
-            </div>
+              <span className="work-play-btn" aria-hidden="true">
+                ▶
+              </span>
+              <span className="work-play-label">Play</span>
+            </button>
           )
         ) : (
-          <div className="work-thumbnail">
-            <img src={item.image} alt={item.title} className="work-img" />
+          <div className="work-thumbnail is-static">
+            <img src={item.image} alt={item.title} className="work-img" ref={imgRef} />
           </div>
         )}
       </div>
 
-      <div className="work-content-container" ref={contentRef}>
-        <div className="work-content-left">
+      <div className="work-content">
+        <div className="work-meta">
           <span className="work-index">{indexDisplay}</span>
-          <h3 className="work-title">{item.title}</h3>
+          <span className="work-badge">{isVideo ? 'Video' : 'Image'}</span>
         </div>
-        <div className="work-content-right">
-          <p className="work-description">{item.description}</p>
-        </div>
+        <h3 className="work-title">{item.title}</h3>
+        {item.description ? <p className="work-description">{item.description}</p> : null}
+
+        {isVideo ? (
+          <div className="work-actions">
+            <a
+              className="work-link"
+              href={`https://www.youtube.com/watch?v=${item.youtubeId}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open on YouTube
+            </a>
+          </div>
+        ) : null}
       </div>
-    </div>
+    </article>
   );
 };
 
@@ -201,20 +231,42 @@ const Work = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const reducedMotion =
+        window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+      if (reducedMotion) return;
+
       gsap.fromTo(
         '.work-header-container',
-        { y: 50, opacity: 0 },
+        { y: 16, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
+          duration: 0.8,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top 75%',
+            once: true,
           },
         }
       );
+
+      ScrollTrigger.batch('.work-item', {
+        start: 'top 85%',
+        onEnter: (batch) =>
+          gsap.fromTo(
+            batch,
+            { opacity: 0, y: 28 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: 'power3.out',
+              stagger: 0.12,
+              overwrite: true,
+            }
+          ),
+      });
     }, containerRef);
 
     return () => ctx.revert();
@@ -223,7 +275,7 @@ const Work = () => {
   return (
     <section className="work-container" ref={containerRef} id="work">
       <div className="work-header-container">
-        <h2 className="work-header">WORK</h2>
+        <h2 className="work-header">Work</h2>
         <p className="work-subtitle">
           Some Gameplays Of The Games That I Reverse Engineered and Modified
         </p>

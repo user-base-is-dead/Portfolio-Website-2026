@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 import Navbar from '../../components/Navbar/Navbar'
+import Footer from '../../components/Footer/Footer'
 import profileImg from '../../assets/profile.jpg'
 import './AboutPage.css'
 
@@ -74,32 +75,41 @@ const AboutPage = () => {
         }
       )
 
-      // Timeline for school-story section
-      const tl2 = gsap.timeline({
+      // Heading animation — uses scrub so it reverses on scroll-up
+      gsap.from('.schoolstory-heading', {
         scrollTrigger: {
-          trigger: '.schoolstory-content',
+          trigger: '.schoolstory-section',
           start: 'top 85%',
-          end: 'bottom 85%',
+          end: 'top 40%',
           scrub: 1
-        }
-      })
-
-      tl2.from('.schoolstory-heading', {
+        },
         y: 40,
         opacity: 0,
         duration: 0.8,
         ease: 'power3.out'
       })
-      .from(splitTextSchool.lines, {
+
+      // Text lines inside the scrollable container — play once, do NOT
+      // reverse on scroll-up (otherwise scrub reversal causes bleed-through
+      // with the overflow-y scroll container)
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.schoolstory-content',
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      tl2.from(splitTextSchool.lines, {
         y: 60,
         opacity: 0,
         rotateZ: 5,
         duration: 0.8,
         stagger: 0.05,
         ease: 'power3.out'
-      }, '-=0.4')
+      })
 
-      // Image swipe-up reveal (school story)
+      // Image swipe-up reveal (school story) — scrub so it reverses
       gsap.fromTo('.schoolstory-image',
         {
           clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
@@ -115,6 +125,7 @@ const AboutPage = () => {
           ease: 'power3.inOut'
         }
       )
+
     }, pageRef)
 
     return () => {
@@ -201,9 +212,10 @@ const AboutPage = () => {
             <img src={profileImg} alt="School Years" className="schoolstory-image" />
           </div>
 
-          {/* ── Right Side: Text ── */}
-          <div className="schoolstory-content">
+          {/* ── Right Side: Heading + Scrollable Text ── */}
+          <div className="schoolstory-right">
             <h2 className="schoolstory-heading">BLACK DAYS OF SCHOOL YEARS</h2>
+            <div className="schoolstory-content">
 
             <p className="aboutpage-text">
               When I was in school, I had a few hobbies — one of them was art, and the other was learning new things about technology — back then, I was very good at drawing and painting, and from my childhood until the end of my school years, I created many artworks and paintings, dreaming that one day I would become an artist — along with that, I always had a deep interest in technology — even during those days, I started learning web languages like HTML, and I actually mastered HTML when I was in class 5, purely by watching tutorials on YouTube — I used to write code on a site called Blogger.com, where I created simple blog-style web pages using HTML — at that time, I was just a kid, but I found the structure and format of coding very unique and well-organized, which made my interest in coding grow even more — the main reason behind this was that I wasn't very strong in regular school studies and didn't enjoy writing notes in notebooks, but when I wrote code, it looked clean, logical, and creative, and that made me love it — my handwriting was always beautiful, but coding gave me a new way to express myself neatly and meaningfully — I still remember writing blogs back then, and sometimes I wish I had saved them, because reading them now would bring a nostalgic feeling, though sadly, they're lost with time.
@@ -268,9 +280,12 @@ const AboutPage = () => {
             <p className="aboutpage-text">
               I can never forget this incident. Even today, I still remember the names of most of those teachers and classmates as well. Time is truly the greatest and most valuable teacher — it teaches you through real, practical experiences, no matter how painful they may be.
             </p>
+            </div>
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   )
 }
