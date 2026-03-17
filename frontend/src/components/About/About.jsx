@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
@@ -105,9 +106,9 @@ const About = () => {
             I am currently a college student at NIT, in my fourth and final year as of October 5, 2025. I am 22 years old, and it still surprises me how quickly time has passed. I was born in Jajpur, Odisha, a beautiful place located in the eastern state of Odisha, India.
           </p>
           <div className="about-btn-wrapper">
-            <a href="#" className="about-btn">
+            <Link to="/about" className="about-btn">
               CLICK TO KNOW MORE ABOUT ME
-            </a>
+            </Link>
           </div>
         </div>
 
