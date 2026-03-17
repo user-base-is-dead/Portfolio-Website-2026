@@ -6,6 +6,11 @@ import SplitType from 'split-type'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import profileImg from '../../assets/profile.jpg'
+import bot1Img from '../../assets/bot1.jpg'
+import bot2Img from '../../assets/bot2.jpg'
+import cheat1Img from '../../assets/cheatss1.png'
+import cheat2Img from '../../assets/cheatss2.png'
+import cheat3Img from '../../assets/cheatss3.png'
 import './AboutPage.css'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -59,58 +64,102 @@ const AboutPage = () => {
       {
         key: 'discord-bots',
         title: 'Discord Bot Development',
-        role: 'Python Developer',
+        role: 'Python Developer (Discord Bots)',
         timeframe: 'Self Experience',
-        tags: ['Python', 'discord.py', 'APIs', 'Automation'],
-        description: '',
+        // tags: ['Python', 'discord.py', 'Discord API', 'yt-dlp', 'FFmpeg', 'asyncio'],
+        // description:
+        //   '',
+        // notes: [
+        //   'Built using discord.py and yt-dlp, streaming audio directly from YouTube via FFmpeg for low latency and optimal sound quality (even under concurrent requests).',
+        //   'Asynchronous command system supporting both slash and prefix commands, with full playback control (volume, queue, skip, pause, loop).',
+        //   'Queue management, auto-disconnect logic, idle-time detection, and a 24/7 persistent mode for long sessions.',
+        //   'Strong error handling + logging + clean coroutine management to prevent command blocking and memory leaks.',
+        //   'Modular architecture designed for future upgrades (Spotify integration, database song caching, web dashboard).',
+        //   'Tech stack: Python, Discord API, yt-dlp, FFmpeg, asyncio, logging, error handling, OOP design pattern.',
+        //   'Role: independently conceptualized, designed, coded, and optimized core systems from scratch (scalability, stability, UX).',
+        //   'Source: https://github.com/user-base-is-dead/eva_music_bot',
+        //   'Invite: https://discord.com/oauth2/authorize?client_id=1387626887358185635&permissions=8&integration_type=0&scope=bot',
+        //   'Also built a Discord bot list project with a team (“ParadiseBotLists”) during the peak era of bot lists; later sold it due to time constraints.',
+        // ],
         projects: [
           {
             key: 'bot-1',
-            name: 'Discord Bot #1',
-            description: 'Paste the Bot #1 description here (from your old site).',
-            screenshots: [{ src: '', alt: 'Discord Bot #1 screenshot (add later)', caption: 'Add screenshot' }],
+            name: 'Eva BeatNix',
+            description: 'A Music Bot.',
+            features: [
+              'Eva BeatNix is an advanced, production-ready Discord music bot engineered entirely in Python, designed to deliver smooth, high-quality, real-time music streaming experiences within Discord servers.',
+              'Built using discord.py and yt-dlp, it efficiently fetches and streams audio directly from YouTube using FFmpeg, ensuring low latency and optimal sound quality even under concurrent requests.',
+              'Implements a robust asynchronous command handling system supporting both slash and prefix-based commands, allowing users to interact seamlessly with precise control over playback, volume, queue, skip, pause, and loop functionalities.',
+              'Features intelligent queue management, auto-disconnect logic, idle-time detection, and a 24/7 persistent mode, ensuring reliability and consistent uptime during long sessions.',
+              'Optimized with advanced error handling, logging mechanisms, and clean coroutine management to prevent memory leaks and command blocking during multi-threaded operations.',
+              'Modular architecture making it easily extendable for future updates such as Spotify integration, database-based song caching, and web dashboard control.'
+            ],
+            techStack: 'Python | Discord API | yt-dlp | FFmpeg | asyncio | logging | error handling | OOP design pattern',
+            role: 'Independently conceptualized, designed, coded, and optimized all core systems from scratch, focusing on scalability, stability, and user experience.',
+            links: [
+              { label: 'Source Code Of My Bot Eva BeatNix', url: 'https://github.com/user-base-is-dead/eva_music_bot', text: 'View Source on GitHub' },
+              { label: 'Invite my Music Bot To Your Server', url: 'https://discord.com/oauth2/authorize?client_id=1387626887358185635&permissions=8&integration_type=0&scope=bot', text: 'Invite Eva BeatNix' }
+            ],
+            screenshots: [{ src: bot1Img, alt: 'Eva BeatNix screenshot'}],
           },
           {
             key: 'bot-2',
-            name: 'Discord Bot #2',
-            description: 'Paste the Bot #2 description here (from your old site).',
-            screenshots: [{ src: '', alt: 'Discord Bot #2 screenshot (add later)', caption: 'Add screenshot' }],
+            name: 'Other Bots',
+            description: 'All kind of bots like security, music, moderatrion, etcs.',
+            features: [
+              '2024 was a time when Discord Bot lists were at peak, So me and a team decided to make our bot list',
+              'So we ended up making ParadiseBotLists. But now to this year 2025 I do not own it anymore as back then had no time to dev/own it so I decided to sell it onwards.'
+
+            ],
+            screenshots: [{ src: bot2Img, alt: 'Screenshot'}],
           },
-        ],
-        notes: [
-          'Lorem ipsum: bot features / modules',
-          'Lorem ipsum: hosting / deployment approach',
-          'Lorem ipsum: add bot info here later',
-        ],
+        ]
       },
       {
         key: 'anticheat',
         title: 'Anticheat Bypass And Cheats',
         role: 'Reverse Engineering / Security Research',
-        timeframe: 'Experience',
-        tags: ['Reverse engineering', 'Bypass', 'Telemetry', 'Evasion'],
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. I worked on multiple customer scenarios with different constraints and environments. (You can replace this text later.)',
-        customers: [
+        timeframe: 'Self Experience',
+        tags: ['Reverse engineering', 'Bypass'],
+        // description: '',
+        // notes: [
+        //   'Placeholder note 1...',
+        //   'Placeholder note 2...'
+        // ],
+        projects: [
           {
-            key: 'cust-1',
-            name: 'Customer #1',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Add details later.',
-            screenshots: [{ src: '', alt: 'Customer #1 screenshot (add later)', caption: 'Add screenshot' }],
+            key: 'cheat-1',
+            name: 'Anticheat Bypass And Cheats Of PUBG/BGMI',
+            description: '⚠️This is for educational purpose, currently I\'m not involve in any of these projects.⚠️',
+            features: [
+              'I previously created unauthorized game modifications (hacks and anti-cheat bypasses for PUBG/BGMI)',
+              'Early in my career I developed game hacks and anti-cheat bypasses for PUBG and BGMI. That experience gave me deep reverse-engineering and systems knowledge — skills I now aim to apply responsibly.'
+            ],
+            screenshots: [{ src: cheat1Img, alt: 'Eva BeatNix screenshot'}],
           },
           {
-            key: 'cust-2',
-            name: 'Customer #2',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Add details later.',
-            screenshots: [{ src: '', alt: 'Customer #2 screenshot (add later)', caption: 'Add screenshot' }],
+            key: 'cheat-2',
+            name: 'Anticheat Bypass of DayZ Game',
+            description: '⚠️This is for educational purpose, currently I\'m not involve in any of these projects.⚠️',
+            features: [
+              'My very own Anti-Cheat System for not just DayZ but for most top-played games!',
+              'I started this Anti-Cheat journey in 2023, and it has been one of the best experiences — from getting advice and technical help to connecting with some of the top cybersecurity professionals. Right now, I\'m proud that it\'s gradually being introduced into multiple platforms. The system uses AI intelligence to differentiate between cheaters and legitimate human behavior.'
+
+            ],
+            screenshots: [{ src: cheat2Img, alt: 'Screenshot'}],
           },
           {
-            key: 'cust-3',
-            name: 'Customer #3',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Add details later.',
-            screenshots: [{ src: '', alt: 'Customer #3 screenshot (add later)', caption: 'Add screenshot' }],
+            key: 'cheat-3',
+            name: 'Back In 2016-17 Mini Militia Hack At The Age Of 13',
+            description: 'You don\'t need to judge this. I only shared it with you because it\'s just some nostalgic memories of mine — the things we used to do for fun, just for enjoyment.',
+            features: [
+              'This is my first game that I made its mod version with cheat feature with my neighbour friend SUJAL',
+              'Even though we didn\'t know binary, we saw weapon names in the hex/dot layout next to the binary lines, so we randomly changed the values, tested until something worked, and shared the working changes publicly on our TG channel.',
+              'At that time back in 2016 me and my neighbourhood friend we both are only of 13 age and there is no AI and YouTube videos for a proper guidance.'
+            ],
+            screenshots: [{ src: cheat3Img, alt: 'Screenshot'}],
           },
-        ],
+        ]
       },
     ],
     []
@@ -398,6 +447,7 @@ const AboutPage = () => {
                 ease: 'power3.out',
                 stagger: 0.12,
                 overwrite: true,
+                clearProps: 'transform'
               }
             ),
           onEnterBack: (batch) =>
@@ -409,6 +459,7 @@ const AboutPage = () => {
               ease: 'power3.out',
               stagger: 0.06,
               overwrite: true,
+              clearProps: 'transform'
             }),
           onLeave: (batch) =>
             gsap.to(batch, {
@@ -485,7 +536,7 @@ const AboutPage = () => {
 
         <div className="aboutpage-hero__video-bg">
           <iframe
-            src="https://www.youtube.com/embed/Vn-ms0Ny0WU?autoplay=1&mute=1&loop=1&playlist=Vn-ms0Ny0WU&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
+            src="https://www.youtube.com/embed/FmHNJa4Wh68?autoplay=1&mute=1&loop=1&playlist=FmHNJa4Wh68&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
             title="Background Video"
             allow="autoplay; encrypted-media"
             allowFullScreen
@@ -665,26 +716,7 @@ const AboutPage = () => {
                       <span className="skillsxp-card__time">{exp.timeframe}</span>
                     </p>
                   </div>
-                  <span className="skillsxp-card__cta" aria-hidden="true">
-                    Read →
-                  </span>
                 </div>
-
-                {'tags' in exp ? (
-                  <ul className="skillsxp-tags" aria-label="Skills">
-                    {exp.tags.map((t) => (
-                      <li key={t} className="skillsxp-tag">
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-
-                {'description' in exp ? (
-                  <p className="skillsxp-desc">{exp.description}</p>
-                ) : null}
-
-                <p className="skillsxp-card__hint">Click to open and read details.</p>
               </button>
             ))}
           </div>
@@ -765,7 +797,6 @@ const AboutPage = () => {
                           <span>{s.caption || 'Add screenshot'}</span>
                         </div>
                       )}
-                      <figcaption className="skillsxp-shot__caption">{s.caption}</figcaption>
                     </figure>
                   ))}
                 </div>
@@ -793,7 +824,87 @@ const AboutPage = () => {
                                 <span>{s.caption || 'Add screenshot'}</span>
                               </div>
                             )}
-                            <figcaption className="skillsxp-shot__caption">{s.caption}</figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            {'projects' in activeExperience ? (
+              <div className="skillsxp-modal__block skillsxp-modal__stagger">
+                <h4 className="skillsxp-modal__h">Projects</h4>
+                <div className="skillsxp-customers skillsxp-customers--detail" aria-label="Project examples">
+                  {activeExperience.projects.map((p) => (
+                    <section className="skillsxp-customer skillsxp-customer--detail" key={p.key}>
+                      <div className="skillsxp-customer__head">
+                        <h4 className="skillsxp-customer__name">{p.name}</h4>
+                        <div className="skillsxp-customer__desc">
+                          {p.description.split('\n').map((line, i) => (
+                            <span key={i} style={{ display: 'block', minHeight: '1em' }}>
+                              {line}
+                            </span>
+                          ))}
+                        </div>
+
+                        {'features' in p ? (
+                          <div className="skillsxp-modal__block skillsxp-modal__stagger" style={{ marginTop: '1rem' }}>
+                            <ul className="skillsxp-notes" aria-label={`${p.name} Features`}>
+                              {p.features.map((n, idx) => (
+                                <li key={idx} style={{ marginBottom: '0.6rem' }}>{n}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : ('notes' in p ? (
+                          <div className="skillsxp-modal__block skillsxp-modal__stagger" style={{ marginTop: '1rem' }}>
+                            <ul className="skillsxp-notes" aria-label={`${p.name} Highlights`}>
+                              {p.notes.map((n, idx) => (
+                                <li key={idx} style={{ marginBottom: '0.6rem' }}>{n}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : null)}
+
+                        {'techStack' in p && (
+                           <div className="skillsxp-modal__block skillsxp-modal__stagger" style={{ marginTop: '1.4rem' }}>
+                             <h4 className="skillsxp-modal__h">Tech Stack</h4>
+                             <p className="skillsxp-customer__desc" style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{p.techStack}</p>
+                           </div>
+                        )}
+
+                        {'role' in p && (
+                           <div className="skillsxp-modal__block skillsxp-modal__stagger" style={{ marginTop: '1.2rem' }}>
+                             <h4 className="skillsxp-modal__h">Role</h4>
+                             <p className="skillsxp-customer__desc" style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{p.role}</p>
+                           </div>
+                        )}
+
+                        {'links' in p && (
+                           <div className="skillsxp-modal__block skillsxp-modal__stagger" style={{ marginTop: '1.4rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                             {p.links.map((lnk, idx) => (
+                               <div key={idx}>
+                                 <span style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-rajdhani)', marginRight: '8px' }}>{lnk.label}:</span>
+                                 <a href={lnk.url} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'underline', fontFamily: 'var(--font-rajdhani)', letterSpacing: '0.5px' }}>
+                                   {lnk.text}
+                                 </a>
+                               </div>
+                             ))}
+                           </div>
+                        )}
+                      </div>
+
+                      <div className="skillsxp-shots skillsxp-shots--compact" aria-label={`${p.name} screenshots`}>
+                        {p.screenshots.map((s, idx) => (
+                          <figure className="skillsxp-shot" key={idx}>
+                            {s.src ? (
+                              <img src={s.src} alt={s.alt} />
+                            ) : (
+                              <div className="skillsxp-shot__placeholder" aria-hidden="true">
+                                <span>{s.caption || 'Add screenshot'}</span>
+                              </div>
+                            )}
                           </figure>
                         ))}
                       </div>

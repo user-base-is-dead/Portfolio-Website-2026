@@ -96,24 +96,7 @@ function Footer() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Heading slide up animation matching other pages
-      gsap.fromTo(
-        ['.footer-brand', '.footer-tagline'],
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.2, // Slight delay between MISHRA and the subtitle
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.footer-content',
-            start: 'top 85%',
-            end: 'bottom 85%',
-            scrub: 1,
-          },
-        }
-      )
+      // Intentionally left blank to remove footer transitions per user request
     }, footerRef)
 
     return () => {

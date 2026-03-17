@@ -31,10 +31,10 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 120vw;
-  height: 120vh;
-  min-width: 120vw;
-  min-height: 120vh;
+  width: 180vw;
+  height: 180vh;
+  min-width: 180vw;
+  min-height: 180vh;
   transform: translate(-50%, -50%);
   filter: grayscale(100%) brightness(0.55);
   border: none;
@@ -576,9 +576,28 @@
   max-width: 85ch;
 }
 
+.skillsxp-card__highlights {
+  margin: 0.9rem 0 0;
+  padding-left: 0;
+  list-style: disc;
+  list-style-position: inside;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-rajdhani);
+  line-height: 1.65;
+  letter-spacing: 0.2px;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.skillsxp-card__highlights li {
+  opacity: 0.95;
+}
+
 .skillsxp-notes {
   margin: 0.9rem 0 0;
-  padding-left: 1.1rem;
+  padding-left: 0;
+  list-style: disc;
+  list-style-position: inside;
   color: rgba(255, 255, 255, 0.8);
   font-family: var(--font-rajdhani);
   line-height: 1.7;
@@ -587,12 +606,12 @@
 .skillsxp-shots {
   margin-top: 1.2rem;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.2rem;
 }
 
 .skillsxp-shots--compact {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .skillsxp-shot {
@@ -605,8 +624,11 @@
 
 .skillsxp-shot img {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-height: 500px;
+  object-fit: contain;
+  background: rgba(0, 0, 0, 0.4);
   display: block;
   filter: grayscale(30%) contrast(1.05);
   transition: transform 260ms ease, filter 260ms ease;
@@ -618,7 +640,8 @@
 }
 
 .skillsxp-shot__placeholder {
-  height: 220px;
+  height: auto;
+  aspect-ratio: 16 / 9;
   display: grid;
   place-items: center;
   background:

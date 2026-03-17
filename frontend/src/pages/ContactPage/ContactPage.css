@@ -30,10 +30,10 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 120vw;
-  height: 120vh;
-  min-width: 120vw;
-  min-height: 120vh;
+  width: 180vw;
+  height: 180vh;
+  min-width: 180vw;
+  min-height: 180vh;
   transform: translate(-50%, -50%);
   filter: grayscale(100%) brightness(0.55);
   border: none;
