@@ -13,21 +13,24 @@ const LandingPage = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Get all sections with the 'panel' class
-      const panels = gsap.utils.toArray('.panel')
-      
-      panels.forEach((panel, i) => {
-        // We pin every panel except the very last one
-        if (i < panels.length - 1) {
-          const isAbout = panel.classList.contains('about-panel')
-          ScrollTrigger.create({
-            trigger: panel,
-            start: 'top top',
-            end: isAbout ? '+=150%' : 'bottom top', // '+150%' waits 50vh spacer + 100vh slide
-            pin: true, 
-            pinSpacing: false // Allows the next panel to slide over this one
-          })
-        }
+      // Only pin panels on desktop (>1024px)
+      const mm = gsap.matchMedia()
+
+      mm.add('(min-width: 1025px)', () => {
+        const panels = gsap.utils.toArray('.panel')
+        
+        panels.forEach((panel, i) => {
+          if (i < panels.length - 1) {
+            const isAbout = panel.classList.contains('about-panel')
+            ScrollTrigger.create({
+              trigger: panel,
+              start: 'top top',
+              end: isAbout ? '+=150%' : 'bottom top',
+              pin: true, 
+              pinSpacing: false
+            })
+          }
+        })
       })
     }, containerRef)
 
@@ -45,8 +48,8 @@ const LandingPage = () => {
       <div className="panel about-panel">
         <About />
       </div>
-      {/* Slight Scroll Height Delay before Section 3 */}
-      <div className="spacer" style={{ height: '50vh' }}></div>
+      {/* Slight Scroll Height Delay before Section 3 (desktop only) */}
+      <div className="spacer desktop-only" style={{ height: '50vh' }}></div>
       <div className="panel">
         <Work />
       </div>

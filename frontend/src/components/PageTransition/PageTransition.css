@@ -1,0 +1,125 @@
+/* ── Page Transition Overlay ──────────────────────── */
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-transition.is-animating {
+  pointer-events: all;
+}
+
+.page-transition__svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* ── Loading UI ────────────────────────────────────── */
+.page-transition__loader {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Logo + Brand side by side */
+.page-transition__row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.page-transition__logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.page-transition__brand {
+  font-family: 'Gloock', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Counter */
+.page-transition__counter {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-top: 1.6rem;
+}
+
+/* Loading line */
+.page-transition__line {
+  width: 200px;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.08);
+  margin-top: 1rem;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.page-transition__line-fill {
+  height: 100%;
+  width: 0%;
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+
+/* ── Tablet (≤1024px) ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .page-transition__logo {
+    width: 55px;
+    height: 55px;
+  }
+  .page-transition__brand {
+    font-size: 2rem;
+    letter-spacing: 6px;
+  }
+  .page-transition__line {
+    width: 160px;
+  }
+}
+
+/* ── Mobile (≤480px) ──────────────────────────────── */
+@media (max-width: 480px) {
+  .page-transition__row {
+    gap: 0.8rem;
+  }
+  .page-transition__logo {
+    width: 40px;
+    height: 40px;
+  }
+  .page-transition__brand {
+    font-size: 1.4rem;
+    letter-spacing: 4px;
+  }
+  .page-transition__counter {
+    font-size: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .page-transition__line {
+    width: 120px;
+  }
+}

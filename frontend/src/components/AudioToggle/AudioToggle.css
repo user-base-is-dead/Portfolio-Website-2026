@@ -1,0 +1,102 @@
+/* ── Audio Toggle Button ─────────────────────────── */
+.audio-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9990;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+
+.audio-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.08);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.audio-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Sound bars animation */
+.audio-toggle__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 16px;
+}
+
+.audio-toggle__bar {
+  width: 2.5px;
+  background: #fff;
+  border-radius: 1px;
+  transition: height 0.3s ease;
+}
+
+/* Playing state — bars animate */
+.audio-toggle.is-playing .audio-toggle__bar:nth-child(1) {
+  animation: barBounce 0.6s ease-in-out infinite alternate;
+  animation-delay: 0s;
+}
+.audio-toggle.is-playing .audio-toggle__bar:nth-child(2) {
+  animation: barBounce 0.6s ease-in-out infinite alternate;
+  animation-delay: 0.15s;
+}
+.audio-toggle.is-playing .audio-toggle__bar:nth-child(3) {
+  animation: barBounce 0.6s ease-in-out infinite alternate;
+  animation-delay: 0.3s;
+}
+.audio-toggle.is-playing .audio-toggle__bar:nth-child(4) {
+  animation: barBounce 0.6s ease-in-out infinite alternate;
+  animation-delay: 0.1s;
+}
+
+/* Muted state — bars go flat */
+.audio-toggle.is-muted .audio-toggle__bar {
+  height: 3px !important;
+  animation: none;
+}
+
+@keyframes barBounce {
+  0% { height: 4px; }
+  100% { height: 16px; }
+}
+
+/* ── Tablet (≤1024px) ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .audio-toggle {
+    width: 40px;
+    height: 40px;
+    bottom: 1.2rem;
+    right: 1.2rem;
+  }
+  .audio-toggle__bars {
+    height: 14px;
+  }
+}
+
+/* ── Mobile (≤480px) ──────────────────────────────── */
+@media (max-width: 480px) {
+  .audio-toggle {
+    width: 36px;
+    height: 36px;
+    bottom: 1rem;
+    right: 1rem;
+  }
+  .audio-toggle__bars {
+    height: 12px;
+    gap: 2px;
+  }
+  .audio-toggle__bar {
+    width: 2px;
+  }
+}

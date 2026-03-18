@@ -217,7 +217,9 @@
 
 @media (max-width: 992px) {
   .about-section {
-    padding: 4rem 1.5rem;
+    min-height: auto;
+    padding: 4rem 1.5rem 5rem;
+    overflow: visible;
   }
 
   .about-container {
@@ -259,7 +261,7 @@
 
 @media (max-width: 480px) {
   .about-section {
-    padding: 3rem 1.2rem;
+    padding: 3rem 1.2rem 4rem;
   }
 
   .about-heading {

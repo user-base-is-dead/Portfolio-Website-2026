@@ -66,3 +66,15 @@ a {
 ul {
   list-style: none;
 }
+
+/* ── Responsive: disable panel pinning constraints ── */
+@media (max-width: 1024px) {
+  .panel {
+    min-height: auto;
+    will-change: auto;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+}

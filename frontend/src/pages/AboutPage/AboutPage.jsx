@@ -5,6 +5,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import SplitType from 'split-type'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
+import { usePageTransition } from '../../components/PageTransition/PageTransition'
 import profileImg from '../../assets/profile.jpg'
 import bot1Img from '../../assets/bot1.jpg'
 import bot2Img from '../../assets/bot2.jpg'
@@ -23,6 +24,7 @@ const AboutPage = () => {
   const schoolStoryScrollRef = useRef(null)
   const [activeExperienceKey, setActiveExperienceKey] = useState(null)
   const [isModalClosing, setIsModalClosing] = useState(false)
+  const { finishTransition } = usePageTransition()
 
   const experiences = useMemo(
     () => [
@@ -536,6 +538,7 @@ const AboutPage = () => {
 
         <div className="aboutpage-hero__video-bg">
           <iframe
+            onLoad={() => finishTransition()}
             src="https://www.youtube.com/embed/FmHNJa4Wh68?autoplay=1&mute=1&loop=1&playlist=FmHNJa4Wh68&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
             title="Background Video"
             allow="autoplay; encrypted-media"

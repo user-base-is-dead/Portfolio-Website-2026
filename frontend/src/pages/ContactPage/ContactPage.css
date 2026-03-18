@@ -318,10 +318,12 @@
   font-size: 0.95rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.68);
+  overflow-wrap: anywhere;
 }
 
 .contact-card__actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.9rem;
 }
 
@@ -580,6 +582,14 @@
 
   .contact-field {
     grid-column: span 12;
+  }
+
+  .contact-card__actions {
+    flex-direction: column;
+  }
+
+  .contact-btn {
+    width: 100%;
   }
 }
 

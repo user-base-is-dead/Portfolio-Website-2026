@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from '../Navbar/Navbar'
+import { usePageTransition } from '../PageTransition/PageTransition'
 import './Home.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -12,6 +13,7 @@ const Home = () => {
   const [wordIndex, setWordIndex] = useState(0)
   const [glitching, setGlitching] = useState(false)
   const homeRef = useRef(null)
+  const { finishTransition } = usePageTransition()
 
   useEffect(() => {
     // Initial home load animation & scrub for scrolling back
@@ -54,6 +56,7 @@ const Home = () => {
 
       <div className="home-hero__video-bg">
         <iframe
+          onLoad={() => finishTransition()}
           src="https://www.youtube.com/embed/Vn-ms0Ny0WU?autoplay=1&mute=1&loop=1&playlist=Vn-ms0Ny0WU&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
           title="Background Video"
           allow="autoplay; encrypted-media"

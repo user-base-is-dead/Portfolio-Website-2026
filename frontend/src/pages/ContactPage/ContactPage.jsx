@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
+import { usePageTransition } from '../../components/PageTransition/PageTransition'
 import './ContactPage.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -38,6 +39,7 @@ const LinkIcon = () => (
 function ContactPage() {
   const pageRef = useRef(null)
   const [toast, setToast] = useState('')
+  const { finishTransition } = usePageTransition()
 
   const contactItems = useMemo(() => {
     const email = 'debasritmishra8@gmail.com'
@@ -191,6 +193,7 @@ function ContactPage() {
 
         <div className="contact-hero__video-bg">
           <iframe
+            onLoad={() => finishTransition()}
             src="https://www.youtube.com/embed/qGQVz0J6jOE?autoplay=1&mute=1&loop=1&playlist=qGQVz0J6jOE&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
             title="Background Video"
             allow="autoplay; encrypted-media"
