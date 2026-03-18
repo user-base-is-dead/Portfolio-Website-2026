@@ -12,6 +12,7 @@ import bot2Img from '../../assets/bot2.jpg'
 import cheat1Img from '../../assets/cheatss1.png'
 import cheat2Img from '../../assets/cheatss2.png'
 import cheat3Img from '../../assets/cheatss3.png'
+import profile2Img from '../../assets/profile2.jpeg'
 import './AboutPage.css'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -605,7 +606,7 @@ const AboutPage = () => {
         <div className="aboutpage-container schoolstory-container">
           {/* ── Left Side: Image ── */}
           <div className="schoolstory-image-wrapper">
-            <img src={profileImg} alt="School Years" className="schoolstory-image" />
+            <img src={profile2Img} alt="School Years" className="schoolstory-image" />
           </div>
 
           {/* ── Right Side: Heading + Scrollable Text ── */}
