@@ -100,7 +100,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  animation: aboutpageHeroFadeIn 2s ease-out both;
+  animation: aboutpageScrollFadeIn 2s ease-out both;
 }
 
 .aboutpage-hero__scroll-text {
@@ -301,6 +301,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes aboutpageScrollFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 }
 
