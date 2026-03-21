@@ -84,13 +84,6 @@ const About = () => {
 
   return (
     <section className="about-section" id="about" ref={sectionRef}>
-      {/* ── Smoke / Cloud Background ── */}
-      <div className="smoke-layer">
-        <div className="smoke-blob smoke-blob--1" />
-        <div className="smoke-blob smoke-blob--2" />
-        <div className="smoke-blob smoke-blob--3" />
-        <div className="smoke-blob smoke-blob--4" />
-      </div>
 
       <div className="about-container">
         {/* ── Left Side: Text ── */}
@@ -114,7 +107,7 @@ const About = () => {
 
         {/* ── Right Side: Photo ── */}
         <div className="about-image-wrapper">
-          <img src={profileImg} alt="Debasrit Mishra" className="about-image" />
+          <img src={profileImg} alt="Debasrit Mishra" className="about-image" loading="lazy" />
         </div>
       </div>
     </section>

@@ -2,17 +2,21 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import gsap from 'gsap'
 import './Preloader.css'
 
-export default function Preloader({ onReady }) {
+export default function Preloader({ onReady, iframeReady }) {
   const [loaded, setLoaded] = useState(false)
   const [exiting, setExiting] = useState(false)
   const progressRef = useRef(null)
   const counterRef = useRef(null)
   const buttonsRef = useRef(null)
 
+  // Coordination refs
+  const counterObjRef = useRef({ val: 0 })
+  const reachedNinety = useRef(false)
+  const finishedToHundred = useRef(false)
+
   // Lock scroll on mount
   useEffect(() => {
     document.body.classList.add('preloader-active')
-    // Also pause Lenis if available
     if (window.__lenis) window.__lenis.stop()
 
     return () => {
@@ -21,23 +25,59 @@ export default function Preloader({ onReady }) {
     }
   }, [])
 
-  useEffect(() => {
-    const counterObj = { val: 0 }
+  // Animate counter 90 → 100 then mark loaded
+  const animateToHundred = useCallback(() => {
+    if (finishedToHundred.current) return
+    finishedToHundred.current = true
 
-    gsap.to(counterObj, {
+    const co = counterObjRef.current
+    gsap.to(co, {
       val: 100,
-      duration: 2,
+      duration: 0.4,
+      ease: 'power2.out',
+      onUpdate: () => {
+        const v = Math.round(co.val)
+        if (counterRef.current) counterRef.current.textContent = v
+        if (progressRef.current) progressRef.current.style.width = v + '%'
+      },
+      onComplete: () => setLoaded(true),
+    })
+  }, [])
+
+  // Phase 1: animate counter 0 → 90
+  useEffect(() => {
+    const co = counterObjRef.current
+    co.val = 0
+
+    gsap.to(co, {
+      val: 90,
+      duration: 1.6,
       ease: 'power2.inOut',
       onUpdate: () => {
-        const v = Math.round(counterObj.val)
+        const v = Math.round(co.val)
         if (counterRef.current) counterRef.current.textContent = v
         if (progressRef.current) progressRef.current.style.width = v + '%'
       },
       onComplete: () => {
-        setLoaded(true)
+        reachedNinety.current = true
+        // If iframe already loaded by now, finish immediately
+        if (iframeReady) {
+          animateToHundred()
+        }
       },
     })
-  }, [])
+
+    // Failsafe: if iframe takes too long (8s total), finish anyway
+    const failsafe = setTimeout(() => animateToHundred(), 8000)
+    return () => clearTimeout(failsafe)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // When iframeReady flips true and counter is at 90 → finish to 100
+  useEffect(() => {
+    if (iframeReady && reachedNinety.current) {
+      animateToHundred()
+    }
+  }, [iframeReady, animateToHundred])
 
   useEffect(() => {
     if (loaded && buttonsRef.current) {
@@ -47,21 +87,17 @@ export default function Preloader({ onReady }) {
 
   const handleEnter = useCallback(
     (withSound) => {
-      // Scroll to top BEFORE fading out so page is already at top
       if (window.__lenis && typeof window.__lenis.scrollTo === 'function') {
         window.__lenis.scrollTo(0, { immediate: true })
       }
       window.scrollTo(0, 0)
       document.documentElement.scrollTop = 0
 
-      // Now fade out the preloader
       setExiting(true)
 
       setTimeout(() => {
-        // Unlock scroll
         document.body.classList.remove('preloader-active')
         if (window.__lenis) window.__lenis.start()
-
         if (onReady) onReady(withSound)
       }, 500)
     },
@@ -102,3 +138,4 @@ export default function Preloader({ onReady }) {
     </div>
   )
 }
+

@@ -38,8 +38,31 @@ const LinkIcon = () => (
 
 function ContactPage() {
   const pageRef = useRef(null)
+  const videoBgRef = useRef(null)
   const [toast, setToast] = useState('')
+  const [iframeVisible, setIframeVisible] = useState(false)
   const { finishTransition } = usePageTransition()
+
+  // Lazy-load the YouTube iframe only when the hero is visible
+  useEffect(() => {
+    const el = videoBgRef.current
+    if (!el) {
+      finishTransition()
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIframeVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [finishTransition])
 
   const contactItems = useMemo(() => {
     const email = 'debasritmishra8@gmail.com'
@@ -191,14 +214,17 @@ function ContactPage() {
       <section className="contact-hero">
         <Navbar />
 
-        <div className="contact-hero__video-bg">
-          <iframe
-            onLoad={() => finishTransition()}
-            src="https://www.youtube.com/embed/qGQVz0J6jOE?autoplay=1&mute=1&loop=1&playlist=qGQVz0J6jOE&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
-            title="Background Video"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-          />
+        <div className="contact-hero__video-bg" ref={videoBgRef}>
+          {iframeVisible && (
+            <iframe
+              onLoad={() => finishTransition()}
+              src="https://www.youtube.com/embed/qGQVz0J6jOE?autoplay=1&mute=1&loop=1&playlist=qGQVz0J6jOE&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
+              title="Background Video"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              loading="lazy"
+            />
+          )}
         </div>
 
         <div className="contact-hero__overlay" />
@@ -223,12 +249,6 @@ function ContactPage() {
       </section>
 
       <section className="contact-body">
-        <div className="contact-smoke-layer" aria-hidden="true">
-          <div className="contact-smoke-blob contact-smoke-blob--1" />
-          <div className="contact-smoke-blob contact-smoke-blob--2" />
-          <div className="contact-smoke-blob contact-smoke-blob--3" />
-          <div className="contact-smoke-blob contact-smoke-blob--4" />
-        </div>
 
         <div className="contact-container">
           <div className="contact-header">

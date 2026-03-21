@@ -11,6 +11,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+img, video, a, button {
+  -webkit-user-drag: none;
 }
 
 html.lenis, html.lenis body {
@@ -55,7 +61,6 @@ body {
   width: 100%;
   /* Force a minimum height so sections don't collapse */
   min-height: 100vh;
-  will-change: transform;
 }
 
 a {

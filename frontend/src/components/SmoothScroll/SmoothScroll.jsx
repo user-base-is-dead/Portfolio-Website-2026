@@ -7,6 +7,11 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function SmoothScroll() {
   useEffect(() => {
+    // Disable smooth scroll on mobile — native scrolling is smooth enough
+    // and avoids continuous JS execution on weak CPUs
+    const isMobile = window.innerWidth <= 768
+    if (isMobile) return
+
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
       window.matchMedia &&

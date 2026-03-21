@@ -31,7 +31,7 @@ export default function AudioToggle({ shouldPlay }) {
 
   return (
     <>
-      <audio ref={audioRef} src="/bg-music.mp3" loop preload="auto" />
+      <audio ref={audioRef} src="/bg-music.mp3" loop preload="none" />
       <button
         className={`audio-toggle ${playing ? 'is-playing' : 'is-muted'}`}
         onClick={toggle}

@@ -39,6 +39,16 @@
   border: none;
 }
 
+/* Mobile: optimize iframe sizing for performance on low-end devices */
+@media (max-width: 768px) {
+  .contact-hero__video-bg iframe {
+    width: 100vw;
+    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+}
+
 .contact-hero__overlay {
   position: absolute;
   inset: 0;
@@ -102,8 +112,7 @@
   padding: 0.65rem 1rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.5);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
@@ -175,57 +184,6 @@
   overflow: hidden;
 }
 
-.contact-smoke-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.contact-smoke-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(85px);
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-.contact-smoke-blob--1 {
-  width: 620px;
-  height: 620px;
-  background: radial-gradient(circle, rgba(255,255,255,0.055) 0%, transparent 70%);
-  bottom: -15%;
-  left: -7%;
-  animation: contactSmoke1 18s ease-in-out infinite;
-}
-
-.contact-smoke-blob--2 {
-  width: 460px;
-  height: 460px;
-  background: radial-gradient(circle, rgba(255,255,255,0.042) 0%, transparent 70%);
-  top: 8%;
-  right: -10%;
-  animation: contactSmoke2 22s ease-in-out infinite 3s;
-}
-
-.contact-smoke-blob--3 {
-  width: 360px;
-  height: 360px;
-  background: radial-gradient(circle, rgba(255,255,255,0.038) 0%, transparent 70%);
-  top: 42%;
-  left: 18%;
-  animation: contactSmoke3 16s ease-in-out infinite 7s;
-}
-
-.contact-smoke-blob--4 {
-  width: 520px;
-  height: 320px;
-  background: radial-gradient(ellipse, rgba(255,255,255,0.034) 0%, transparent 70%);
-  top: -6%;
-  left: 34%;
-  animation: contactSmoke4 20s ease-in-out infinite 1s;
-}
 
 .contact-container {
   max-width: 1200px;
@@ -274,8 +232,7 @@
   padding: 1.4rem 1.4rem 1.2rem;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
   transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
 }
@@ -376,8 +333,7 @@
   padding: 1.6rem 1.6rem 1.4rem;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
 }
 
@@ -482,8 +438,7 @@
   padding: 0.8rem 1.1rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.7);
   color: rgba(255, 255, 255, 0.9);
   letter-spacing: 1.2px;
   text-transform: uppercase;
@@ -520,37 +475,6 @@
   100% { box-shadow: 0 0 0 0 rgba(28, 255, 138, 0); }
 }
 
-@keyframes contactSmoke1 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0; }
-  15% { opacity: 0.6; }
-  50% { transform: translate(120px, -90px) scale(1.28); opacity: 0.8; }
-  85% { opacity: 0.6; }
-  100% { transform: translate(0, 0) scale(1); opacity: 0; }
-}
-
-@keyframes contactSmoke2 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0; }
-  20% { opacity: 0.5; }
-  50% { transform: translate(-110px, 60px) scale(1.25); opacity: 0.7; }
-  80% { opacity: 0.5; }
-  100% { transform: translate(0, 0) scale(1); opacity: 0; }
-}
-
-@keyframes contactSmoke3 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0; }
-  25% { opacity: 0.5; }
-  50% { transform: translate(70px, -55px) scale(1.2); opacity: 0.7; }
-  75% { opacity: 0.5; }
-  100% { transform: translate(0, 0) scale(1); opacity: 0; }
-}
-
-@keyframes contactSmoke4 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0; }
-  20% { opacity: 0.45; }
-  50% { transform: translate(-85px, 45px) scale(1.15); opacity: 0.65; }
-  80% { opacity: 0.45; }
-  100% { transform: translate(0, 0) scale(1); opacity: 0; }
-}
 
 /* ── Responsive ────────────────────────────────────── */
 @media (max-width: 992px) {

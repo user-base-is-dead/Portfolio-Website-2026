@@ -8,7 +8,7 @@ import Footer from '../../components/Footer/Footer'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const LandingPage = () => {
+const LandingPage = ({ onIframeLoad }) => {
   const containerRef = useRef(null)
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const LandingPage = () => {
     <main ref={containerRef} className="app-container">
       {/* We add the 'panel' class to wrappers to identify them for GSAP */}
       <div className="panel">
-        <Home />
+        <Home onIframeLoad={onIframeLoad} />
       </div>
       <div className="panel about-panel">
         <About />

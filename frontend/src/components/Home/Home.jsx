@@ -9,11 +9,35 @@ gsap.registerPlugin(ScrollTrigger)
 
 const WORDS = ['FURTHER', 'BEYOND', 'OUT OF LIMITS', 'TO THE EDGE', 'NEXT LEVEL']
 
-const Home = () => {
+const Home = ({ onIframeLoad }) => {
   const [wordIndex, setWordIndex] = useState(0)
   const [glitching, setGlitching] = useState(false)
+  const [iframeVisible, setIframeVisible] = useState(false)
   const homeRef = useRef(null)
+  const videoBgRef = useRef(null)
   const { finishTransition } = usePageTransition()
+
+  // Lazy-load the YouTube iframe only when the hero is visible
+  useEffect(() => {
+    const el = videoBgRef.current
+    if (!el) {
+      finishTransition()
+      if (onIframeLoad) onIframeLoad()
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIframeVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [finishTransition])
 
   useEffect(() => {
     // Initial home load animation & scrub for scrolling back
@@ -54,14 +78,17 @@ const Home = () => {
     <section className="home-hero" id="home" ref={homeRef}>
       <Navbar />
 
-      <div className="home-hero__video-bg">
-        <iframe
-          onLoad={() => finishTransition()}
-          src="https://www.youtube.com/embed/Vn-ms0Ny0WU?autoplay=1&mute=1&loop=1&playlist=Vn-ms0Ny0WU&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
-          title="Background Video"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-        />
+      <div className="home-hero__video-bg" ref={videoBgRef}>
+        {iframeVisible && (
+          <iframe
+            onLoad={() => { finishTransition(); if (onIframeLoad) onIframeLoad() }}
+            src="https://www.youtube.com/embed/Vn-ms0Ny0WU?autoplay=1&mute=1&loop=1&playlist=Vn-ms0Ny0WU&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
+            title="Background Video"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            loading="lazy"
+          />
+        )}
       </div>
 
       <div className="home-hero__overlay" />

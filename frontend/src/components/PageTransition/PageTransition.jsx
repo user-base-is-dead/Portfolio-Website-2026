@@ -134,10 +134,10 @@ export function TransitionProvider({ children }) {
         ease: 'power2.out',
       }, '-=0.1')
 
-      // Animate counter 0 → 100 + line fill
+      // Phase 1: Animate counter 0 → 90
       .to(counterObj, {
-        val: 100,
-        duration: 1.8,
+        val: 90,
+        duration: 1.4,
         ease: 'power2.inOut',
         onUpdate: () => {
           const v = Math.round(counterObj.val)
@@ -146,25 +146,38 @@ export function TransitionProvider({ children }) {
         },
       }, '-=0.1')
 
-      // ── MIDPOINT: swap the page & WAIT ──
+      // ── MIDPOINT: swap the page & WAIT for iframe ──
       .call(() => {
         if (onMidpoint) onMidpoint()
         
         tl.pause()
 
         finishRef.current = () => {
-          if (tl.paused()) {
-            tl.play()
-          }
+          // Phase 2: Animate counter 90 → 100, then resume reveal
+          gsap.to(counterObj, {
+            val: 100,
+            duration: 0.4,
+            ease: 'power2.out',
+            onUpdate: () => {
+              const v = Math.round(counterObj.val)
+              if (counter) counter.textContent = v
+              if (lineFillRef.current) lineFillRef.current.style.width = v + '%'
+            },
+            onComplete: () => {
+              if (tl.paused()) {
+                tl.play()
+              }
+            },
+          })
         }
 
-        // Failsafe: auto-resume after 2.5s
+        // Failsafe: auto-resume after 6s (generous for mobile iframe loading)
         setTimeout(() => {
           if (finishRef.current) {
             finishRef.current()
             finishRef.current = null
           }
-        }, 2500)
+        }, 6000)
       })
 
       // Hide loader before peeling

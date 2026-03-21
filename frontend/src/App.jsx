@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import SmoothScroll from './components/SmoothScroll/SmoothScroll'
 import { TransitionProvider, TransitionRoutes } from './components/PageTransition/PageTransition'
@@ -11,6 +11,14 @@ import ContactPage from './pages/ContactPage/ContactPage'
 function App() {
   const [siteReady, setSiteReady] = useState(false)
   const [soundEnabled, setSoundEnabled] = useState(false)
+  const [iframeReady, setIframeReady] = useState(false)
+  const iframeSignalledRef = useRef(false)
+
+  const signalIframeReady = useCallback(() => {
+    if (iframeSignalledRef.current) return
+    iframeSignalledRef.current = true
+    setIframeReady(true)
+  }, [])
 
   const handleReady = useCallback((withSound) => {
     setSoundEnabled(withSound)
@@ -19,12 +27,12 @@ function App() {
 
   return (
     <>
-      {!siteReady && <Preloader onReady={handleReady} />}
+      {!siteReady && <Preloader onReady={handleReady} iframeReady={iframeReady} />}
       <BrowserRouter>
         <SmoothScroll />
         <TransitionProvider>
           <TransitionRoutes>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage onIframeLoad={signalIframeReady} />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </TransitionRoutes>
@@ -36,3 +44,4 @@ function App() {
 }
 
 export default App
+

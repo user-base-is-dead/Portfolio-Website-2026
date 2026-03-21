@@ -78,6 +78,11 @@ const WorkItem = ({ item, index }) => {
     return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
   }, []);
 
+  const isDesktop = useMemo(() => {
+    if (typeof window === 'undefined') return true;
+    return window.innerWidth > 768;
+  }, []);
+
   useEffect(() => {
     const el = itemRef.current;
     if (!el) return;
@@ -86,7 +91,7 @@ const WorkItem = ({ item, index }) => {
     const feTurbulence = filterSvgRef.current?.querySelector('feTurbulence') ?? null;
 
     const ctx = gsap.context(() => {
-      if (!reducedMotion) {
+      if (!reducedMotion && isDesktop) {
         // Subtle parallax on the thumbnail image while scrolling
         if (imgRef.current && !isPlaying) {
           gsap.to(imgRef.current, {
@@ -101,7 +106,7 @@ const WorkItem = ({ item, index }) => {
           });
         }
 
-        // Velocity-driven displacement (disabled while playing and for reduced-motion users)
+        // Velocity-driven displacement (disabled while playing, on mobile, and for reduced-motion users)
         if (feDisplacementMap && feTurbulence && !isPlaying) {
           displacementTriggerRef.current = ScrollTrigger.create({
             trigger: el,
@@ -136,7 +141,7 @@ const WorkItem = ({ item, index }) => {
       displacementTriggerRef.current = null;
       ctx.revert();
     };
-  }, [isPlaying, item.id, reducedMotion]);
+  }, [isPlaying, item.id, reducedMotion, isDesktop]);
 
   const indexDisplay = index < 9 ? `0${index + 1}` : index + 1;
   const isVideo = item.type === 'video';
@@ -166,7 +171,7 @@ const WorkItem = ({ item, index }) => {
       <div
         className="work-media"
         ref={mediaRef}
-        style={{ filter: isPlaying || reducedMotion ? 'none' : `url(#${filterId})` }}
+        style={{ filter: isPlaying || reducedMotion || !isDesktop ? 'none' : `url(#${filterId})` }}
       >
         {isVideo ? (
           isPlaying ? (

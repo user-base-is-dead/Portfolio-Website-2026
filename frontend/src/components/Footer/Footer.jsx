@@ -88,8 +88,6 @@ function Footer() {
   const marqueeContent = [
     ...marqueeItems,
     ...marqueeItems,
-    ...marqueeItems,
-    ...marqueeItems,
   ]
 
   const footerRef = useRef(null)

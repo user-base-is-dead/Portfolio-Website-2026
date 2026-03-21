@@ -23,9 +23,32 @@ const AboutPage = () => {
   const modalPanelRef = useRef(null)
   const modalCloseBtnRef = useRef(null)
   const schoolStoryScrollRef = useRef(null)
+  const videoBgRef = useRef(null)
   const [activeExperienceKey, setActiveExperienceKey] = useState(null)
   const [isModalClosing, setIsModalClosing] = useState(false)
+  const [iframeVisible, setIframeVisible] = useState(false)
   const { finishTransition } = usePageTransition()
+
+  // Lazy-load the YouTube iframe only when the hero is visible
+  useEffect(() => {
+    const el = videoBgRef.current
+    if (!el) {
+      finishTransition()
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIframeVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [finishTransition])
 
   const experiences = useMemo(
     () => [
@@ -537,14 +560,17 @@ const AboutPage = () => {
       <section className="aboutpage-hero">
         <Navbar />
 
-        <div className="aboutpage-hero__video-bg">
-          <iframe
-            onLoad={() => finishTransition()}
-            src="https://www.youtube.com/embed/FmHNJa4Wh68?autoplay=1&mute=1&loop=1&playlist=FmHNJa4Wh68&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
-            title="Background Video"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-          />
+        <div className="aboutpage-hero__video-bg" ref={videoBgRef}>
+          {iframeVisible && (
+            <iframe
+              onLoad={() => finishTransition()}
+              src="https://www.youtube.com/embed/FmHNJa4Wh68?autoplay=1&mute=1&loop=1&playlist=FmHNJa4Wh68&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&playsinline=1"
+              title="Background Video"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              loading="lazy"
+            />
+          )}
         </div>
 
         <div className="aboutpage-hero__overlay" />
@@ -564,13 +590,6 @@ const AboutPage = () => {
 
       {/* ── About Me Content ── */}
       <section className="aboutpage-body">
-        {/* Smoke Background */}
-        <div className="aboutpage-smoke-layer">
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--1" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--2" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--3" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--4" />
-        </div>
 
         <div className="aboutpage-container">
           {/* ── Left Side: Text ── */}
@@ -596,12 +615,6 @@ const AboutPage = () => {
 
       {/* ── Black Days Of School Years ── */}
       <section className="aboutpage-body schoolstory-section">
-        <div className="aboutpage-smoke-layer">
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--1" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--2" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--3" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--4" />
-        </div>
 
         <div className="aboutpage-container schoolstory-container">
           {/* ── Left Side: Image ── */}
@@ -684,12 +697,6 @@ const AboutPage = () => {
 
       {/* ── Skills & Experience ── */}
       <section className="aboutpage-body skillsxp-section" aria-labelledby="skillsxp-heading">
-        <div className="aboutpage-smoke-layer">
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--1" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--2" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--3" />
-          <div className="aboutpage-smoke-blob aboutpage-smoke-blob--4" />
-        </div>
 
         <div className="skillsxp-container">
           <header className="skillsxp-header">
