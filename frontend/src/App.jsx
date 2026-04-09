@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { HashRouter, Route } from 'react-router-dom'
 import SmoothScroll from './components/SmoothScroll/SmoothScroll'
 import { TransitionProvider, TransitionRoutes } from './components/PageTransition/PageTransition'
 import Preloader from './components/Preloader/Preloader'
@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       {!siteReady && <Preloader onReady={handleReady} iframeReady={iframeReady} />}
-      <BrowserRouter>
+      <HashRouter>
         <SmoothScroll />
         <TransitionProvider>
           <TransitionRoutes>
@@ -37,7 +37,7 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
           </TransitionRoutes>
         </TransitionProvider>
-      </BrowserRouter>
+      </HashRouter>
       {siteReady && <AudioToggle shouldPlay={soundEnabled} />}
     </>
   )
