@@ -303,8 +303,7 @@ function ContactPage() {
             <div className="contact-form__header">
               <h3 className="contact-form__title">Send a message</h3>
               <p className="contact-form__hint">
-                This is a styled form. If you want, I can connect it to EmailJS
-                or your backend later.
+                Write Message...
               </p>
             </div>
 
@@ -331,7 +330,7 @@ function ContactPage() {
                 <span>Send</span>
               </button>
               <p className="contact-form__fineprint">
-                By sending, you agree to be awesome.
+                You will get the reply via mail.
               </p>
             </div>
           </form>
